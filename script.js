@@ -1,252 +1,153 @@
-/* =========================================================
-   STUDYBRIDGE
-   Website Interactions
-   ========================================================= */
+// ===============================
+// STUDYBRIDGE WEBSITE JAVASCRIPT
+// ===============================
 
+// Mobile menu
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
 
-/* =========================
-   MOBILE MENU
-   ========================= */
-
-const menuToggle = document.getElementById("menuToggle");
-const mainNav = document.getElementById("mainNav");
-
-if (menuToggle && mainNav) {
-
-    menuToggle.addEventListener("click", function () {
-
-        mainNav.classList.toggle("active");
-
-        if (mainNav.classList.contains("active")) {
-            menuToggle.innerHTML = "✕";
-        } else {
-            menuToggle.innerHTML = "☰";
-        }
-
+if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
     });
-
-
-    /* Close menu after clicking a navigation link */
-
-    const navLinks = mainNav.querySelectorAll("a");
-
-    navLinks.forEach(function (link) {
-
-        link.addEventListener("click", function () {
-
-            mainNav.classList.remove("active");
-
-            menuToggle.innerHTML = "☰";
-
-        });
-
-    });
-
 }
 
-
-/* =========================
-   UNIVERSITY EXPLORER
-   ========================= */
-
-const universitySearch =
-    document.getElementById("universitySearch");
-
-const countrySelect =
-    document.getElementById("countrySelect");
-
-const courseSelect =
-    document.getElementById("courseSelect");
-
-const intakeSelect =
-    document.getElementById("intakeSelect");
-
-const searchMessage =
-    document.getElementById("searchMessage");
-
-
-if (universitySearch) {
-
-    universitySearch.addEventListener("click", function () {
-
-        const country = countrySelect.value;
-        const course = courseSelect.value;
-        const intake = intakeSelect.value;
-
-
-        if (!country && !course && !intake) {
-
-            searchMessage.textContent =
-                "Please select at least one option to explore.";
-
-            return;
-        }
-
-
-        let message =
-            "Great! Your preferences are ready for counselling.";
-
-        if (country) {
-            message += ` Destination: ${country}.`;
-        }
-
-        if (course) {
-            message += ` Program: ${course}.`;
-        }
-
-        if (intake) {
-            message += ` Intake: ${intake}.`;
-        }
-
-        searchMessage.textContent = message;
-
+// Close mobile menu when a link is clicked
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
     });
+});
 
-}
 
+// ==========================================
+// GOOGLE SHEETS ENQUIRY CONNECTION
+// ==========================================
 
-/* =========================
-   ENQUIRY FORM
-   ========================= */
+const enquiryForm = document.querySelector("#enquiryForm");
 
-const enquiryForm =
-    document.getElementById("enquiryForm");
-
-const formMessage =
-    document.getElementById("formMessage");
-
+const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycby3DuLWHpVxTaZFcoNblPAuhGt5_d314zCsxwsNs3CPUHLMIwKPnS7hOokul50DogCslg/exec";
 
 if (enquiryForm) {
 
-    enquiryForm.addEventListener("submit", function (event) {
+    enquiryForm.addEventListener("submit", async function (e) {
 
-        event.preventDefault();
+        e.preventDefault();
 
+        const submitButton = enquiryForm.querySelector(
+            'button[type="submit"]'
+        );
 
-        const name =
-            document.getElementById("name").value.trim();
+        const originalText = submitButton.innerText;
 
-        const phone =
-            document.getElementById("phone").value.trim();
+        submitButton.innerText = "Sending...";
+        submitButton.disabled = true;
 
+        const formData = new FormData(enquiryForm);
 
-        if (!name || !phone) {
+        const data = {
+            name: formData.get("name"),
+            phone: formData.get("phone"),
+            email: formData.get("email"),
+            country: formData.get("country"),
+            course: formData.get("course"),
+            message: formData.get("message")
+        };
 
-            formMessage.textContent =
-                "Please enter your name and phone number.";
+        try {
 
-            return;
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(data)
+            });
+
+            alert(
+                "Thank you! Your enquiry has been submitted successfully. Our StudyBridge team will contact you soon."
+            );
+
+            enquiryForm.reset();
+
+        } catch (error) {
+
+            console.error("Enquiry Error:", error);
+
+            alert(
+                "Something went wrong. Please try again or contact us on WhatsApp."
+            );
+
+        } finally {
+
+            submitButton.innerText = originalText;
+            submitButton.disabled = false;
+
         }
 
-
-        /*
-         * Temporary front-end response.
-         *
-         * Later we can connect this form to:
-         * - WhatsApp
-         * - Email
-         * - Google Sheets
-         * - Formspree
-         * - Your own backend
-         */
-
-        formMessage.textContent =
-            `Thank you, ${name}! Your enquiry has been received.`;
-
-        enquiryForm.reset();
-
     });
-
 }
 
 
-/* =========================
-   BACK TO TOP
-   ========================= */
+// ==========================================
+// BACK TO TOP BUTTON
+// ==========================================
 
-const backToTop =
-    document.getElementById("backToTop");
-
+const backToTop = document.querySelector("#backToTop");
 
 if (backToTop) {
 
-    window.addEventListener("scroll", function () {
+    window.addEventListener("scroll", () => {
 
-        if (window.scrollY > 500) {
-
+        if (window.scrollY > 400) {
             backToTop.classList.add("show");
-
         } else {
-
             backToTop.classList.remove("show");
-
         }
 
     });
 
-
-    backToTop.addEventListener("click", function () {
-
+    backToTop.addEventListener("click", () => {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
-
     });
 
 }
 
 
-/* =========================
-   CURRENT YEAR
-   ========================= */
+// ==========================================
+// CURRENT YEAR
+// ==========================================
 
-const currentYear =
-    document.getElementById("currentYear");
+const yearElement = document.querySelector("#currentYear");
 
-
-if (currentYear) {
-
-    currentYear.textContent =
-        new Date().getFullYear();
-
+if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
 }
 
 
-/* =========================
-   SMOOTH INTERNAL LINKS
-   ========================= */
+// ==========================================
+// SMOOTH SCROLL
+// ==========================================
 
-const internalLinks =
-    document.querySelectorAll('a[href^="#"]');
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
+    anchor.addEventListener("click", function (e) {
 
-internalLinks.forEach(function (link) {
-
-    link.addEventListener("click", function (event) {
-
-        const targetId =
-            link.getAttribute("href");
-
-        if (
-            !targetId ||
-            targetId === "#"
-        ) {
-            return;
-        }
-
-
-        const target =
-            document.querySelector(targetId);
-
+        const target = document.querySelector(
+            this.getAttribute("href")
+        );
 
         if (target) {
 
-            event.preventDefault();
+            e.preventDefault();
 
             target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
+                behavior: "smooth"
             });
 
         }
@@ -256,42 +157,24 @@ internalLinks.forEach(function (link) {
 });
 
 
-/* =========================
-   HEADER SHADOW ON SCROLL
-   ========================= */
+// ==========================================
+// HEADER SHADOW ON SCROLL
+// ==========================================
 
-const header =
-    document.querySelector(".site-header");
-
+const header = document.querySelector(".site-header");
 
 if (header) {
 
-    window.addEventListener("scroll", function () {
+    window.addEventListener("scroll", () => {
 
-        if (window.scrollY > 20) {
-
-            header.style.boxShadow =
-                "0 8px 30px rgba(7, 27, 58, 0.08)";
-
+        if (window.scrollY > 50) {
+            header.classList.add("scrolled");
         } else {
-
-            header.style.boxShadow = "none";
-
+            header.classList.remove("scrolled");
         }
 
     });
 
 }
 
-
-/* =========================
-   PAGE LOADED
-   ========================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    console.log(
-        "StudyBridge website loaded successfully."
-    );
-
-});
+console.log("StudyBridge website loaded successfully.");
