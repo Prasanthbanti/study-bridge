@@ -27,7 +27,7 @@ document.querySelectorAll(".nav-links a").forEach(link => {
 const enquiryForm = document.querySelector("#enquiryForm");
 
 const GOOGLE_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycby3DuLWHpVxTaZFcoNblPAuhGt5_d314zCsxwsNs3CPUHLMIwKPnS7hOokul50DogCslg/exec";
+    "https://script.google.com/macros/s/AKfycbx-GyKuvVlVmovYlM2CziykxwnkxM6PV1p0gxmJdxKbHkkaE3OFVHiZhE-NkayCnVcL/exec";
 
 if (enquiryForm) {
 
