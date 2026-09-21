@@ -47,13 +47,13 @@ if (enquiryForm) {
         const formData = new FormData(enquiryForm);
 
         const data = {
-            name: formData.get("name"),
-            phone: formData.get("phone"),
-            email: formData.get("email"),
-            country: formData.get("country"),
-            course: formData.get("course"),
-            message: formData.get("message")
-        };
+    name: formData.get("name"),
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    country: formData.get("country"),
+    course: formData.get("program"),
+    message: formData.get("message")
+};
 
         try {
 
