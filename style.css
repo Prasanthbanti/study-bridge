@@ -2425,3 +2425,31 @@ textarea {
         right: -10px;
     }
 }
+/* ================================
+   StudyBridge Header Logo
+================================ */
+
+.site-header .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.site-header .logo img {
+    width: 270px;
+    height: auto;
+    display: block;
+}
+
+/* ================================
+   Mobile Header Logo
+================================ */
+
+@media (max-width: 900px) {
+
+    .site-header .logo img {
+        width: 210px;
+        max-width: 65vw;
+    }
+
+}
