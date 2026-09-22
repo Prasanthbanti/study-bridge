@@ -2453,3 +2453,271 @@ textarea {
     }
 
 }
+/* =========================================
+   STUDYBRIDGE ENQUIRY SUCCESS POPUP
+========================================= */
+
+.enquiry-success-popup {
+    display: none;
+    position: relative;
+    width: 90%;
+    max-width: 430px;
+    margin: 25px auto 0;
+    padding: 24px 18px;
+    background: #ffffff;
+    border: 2px solid #0B2A4A;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    overflow: hidden;
+    z-index: 20;
+}
+
+/* Show popup only after successful submission */
+
+.enquiry-success-popup.show {
+    display: block;
+    animation: popupAppear 0.45s ease forwards;
+}
+
+
+/* =========================================
+   ANIMATION AREA
+========================================= */
+
+.success-animation {
+    position: relative;
+    height: 75px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+
+/* Dashed flight path */
+
+.success-animation::before {
+    content: "";
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    top: 43px;
+    border-top: 2px dashed #F47B20;
+}
+
+
+/* Airplane */
+
+.success-plane {
+    position: absolute;
+    left: -55px;
+    top: 25px;
+    font-size: 36px;
+    opacity: 0;
+    z-index: 3;
+}
+
+
+/* Graduation cap */
+
+.success-cap {
+    position: absolute;
+    right: 18px;
+    top: 8px;
+    font-size: 46px;
+    opacity: 0;
+    transform: scale(0.5);
+    z-index: 3;
+}
+
+
+/* Green check */
+
+.success-check {
+    position: absolute;
+    right: 70px;
+    top: 2px;
+    width: 25px;
+    height: 25px;
+    background: #18A558;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    opacity: 0;
+    z-index: 4;
+}
+
+
+/* =========================================
+   AIRPLANE FLIGHT
+========================================= */
+
+.enquiry-success-popup.show .success-plane {
+    animation: flyToGraduation 2.2s ease-in-out forwards;
+}
+
+
+/* =========================================
+   GRADUATION CAP
+========================================= */
+
+.enquiry-success-popup.show .success-cap {
+    animation: graduationAppear 0.6s ease 1.9s forwards;
+}
+
+
+/* =========================================
+   CHECK
+========================================= */
+
+.enquiry-success-popup.show .success-check {
+    animation: checkAppear 0.5s ease 2.35s forwards;
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.enquiry-success-popup h3 {
+    margin: 5px 0 7px;
+    color: #0B2A4A;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.enquiry-success-popup p {
+    margin: 0;
+    color: #555555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes flyToGraduation {
+
+    0% {
+        left: -55px;
+        top: 38px;
+        opacity: 0;
+        transform: rotate(-5deg);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    35% {
+        top: 10px;
+    }
+
+    65% {
+        top: 35px;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        left: calc(100% - 75px);
+        top: 25px;
+        opacity: 0;
+        transform: rotate(5deg);
+    }
+}
+
+
+@keyframes graduationAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-15deg);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+
+@keyframes checkAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+@keyframes popupAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .enquiry-success-popup {
+        width: 88%;
+        padding: 22px 15px;
+        border-radius: 18px;
+    }
+
+    .success-animation {
+        height: 70px;
+    }
+
+    .success-plane {
+        font-size: 32px;
+    }
+
+    .success-cap {
+        font-size: 42px;
+        right: 12px;
+    }
+
+    .enquiry-success-popup h3 {
+        font-size: 18px;
+    }
+
+    .enquiry-success-popup p {
+        font-size: 13px;
+    }
+}
