@@ -2878,3 +2878,18 @@ textarea {
     }
 
 }
+/* Actual WhatsApp Logo */
+
+.studybridge-whatsapp-left .whatsapp-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.studybridge-whatsapp-left .whatsapp-icon svg {
+    width: 34px;
+    height: 34px;
+    display: block;
+}
