@@ -2893,3 +2893,19 @@ textarea {
     height: 34px;
     display: block;
 }
+/* Match WhatsApp button size with right-side button */
+
+.studybridge-whatsapp-left {
+    width: 60px !important;
+    height: 60px !important;
+}
+
+.studybridge-whatsapp-left .whatsapp-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.studybridge-whatsapp-left .whatsapp-icon svg {
+    width: 30px;
+    height: 30px;
+}
