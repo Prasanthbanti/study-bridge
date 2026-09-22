@@ -66,12 +66,19 @@ if (enquiryForm) {
                 body: JSON.stringify(data)
             });
 
-            alert(
-                "Thank you! Your enquiry has been submitted successfully. Our StudyBridge team will contact you soon."
-            );
-
             enquiryForm.reset();
 
+const successPopup = document.getElementById("enquirySuccessPopup");
+
+if (successPopup) {
+
+    successPopup.classList.add("show");
+
+    setTimeout(() => {
+        successPopup.classList.remove("show");
+    }, 5500);
+
+}
         } catch (error) {
 
             console.error("Enquiry Error:", error);
