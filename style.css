@@ -2721,3 +2721,65 @@ textarea {
         font-size: 13px;
     }
 }
+/* =========================================
+   TALK TO US - PHONE ICON BOX
+========================================= */
+
+.contact-point-link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.contact-point-link > span {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    border-radius: 16px;
+
+    font-size: 28px;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Keep text styling consistent */
+
+.contact-point-link strong {
+    display: block;
+    color: #071A3D;
+    font-size: 17px;
+}
+
+.contact-point-link small {
+    display: block;
+    margin-top: 4px;
+    color: #64748B;
+    font-size: 13px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .contact-point-link {
+        gap: 18px;
+    }
+
+    .contact-point-link > span {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        border-radius: 16px;
+        font-size: 28px;
+    }
+
+}
