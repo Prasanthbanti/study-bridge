@@ -3531,37 +3531,9 @@ textarea {
         right: 16%;
     }
 }
+
 /* ==========================================
-   STUDYBRIDGE - 3D LEFT ↔ RIGHT GLOBE
-========================================== */
-
-.map-symbol {
-    display: inline-block;
-
-    animation: globeSpin 8s linear infinite !important;
-
-    transform-style: preserve-3d;
-    transform-origin: center center;
-
-    backface-visibility: hidden;
-}
-
-@keyframes globeSpin {
-
-    0% {
-        transform: perspective(500px) rotateY(0deg);
-    }
-
-    50% {
-        transform: perspective(500px) rotateY(180deg);
-    }
-
-    100% {
-        transform: perspective(500px) rotateY(360deg);
-    }
-}
-/* ==========================================
-   STUDYBRIDGE 3D GLOBE
+   STUDYBRIDGE 3D EARTH GLOBE
 ========================================== */
 
 #studybridge-globe {
@@ -3569,21 +3541,69 @@ textarea {
     height: 190px;
 
     border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+
+    background: #1769aa;
+
+    box-shadow:
+        inset -25px -20px 35px rgba(0, 0, 0, 0.55),
+        inset 12px 10px 25px rgba(255, 255, 255, 0.18),
+        0 20px 40px rgba(0, 0, 0, 0.28);
+}
+
+/* Moving Earth map */
+#studybridge-globe::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -190px;
+
+    width: 570px;
+    height: 190px;
+
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg");
+
+    background-size: 570px 190px;
+    background-repeat: repeat-x;
+
+    animation: earthSpin 18s linear infinite;
+}
+
+/* 3D lighting */
+#studybridge-globe::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
 
     background:
         radial-gradient(
-            circle at 35% 30%,
-            #7dd3fc 0%,
-            #2563eb 45%,
-            #0b2a4a 75%,
-            #06172b 100%
+            circle at 30% 25%,
+            rgba(255,255,255,0.22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 75% 75%,
+            rgba(0,0,0,0.55),
+            transparent 60%
         );
 
-    box-shadow:
-        inset -25px -15px 45px rgba(0, 0, 0, 0.45),
-        inset 15px 10px 30px rgba(255, 255, 255, 0.18),
-        0 20px 35px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+}
 
-    position: relative;
-    overflow: hidden;
+@keyframes earthSpin {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(190px);
+    }
 }
