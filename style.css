@@ -3531,3 +3531,25 @@ textarea {
         right: 16%;
     }
 }
+/* ==========================================
+   STUDYBRIDGE - SLOW ROTATING GLOBE
+========================================== */
+
+.map-symbol {
+    animation: globeRotate 12s linear infinite !important;
+    transform-origin: center center;
+}
+
+@keyframes globeRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
