@@ -3532,24 +3532,31 @@ textarea {
     }
 }
 /* ==========================================
-   STUDYBRIDGE - SLOW ROTATING GLOBE
+   STUDYBRIDGE - 3D LEFT ↔ RIGHT GLOBE
 ========================================== */
 
 .map-symbol {
-    animation: globeRotate 12s linear infinite !important;
+    display: inline-block;
+
+    animation: globeSpin 8s linear infinite !important;
+
+    transform-style: preserve-3d;
     transform-origin: center center;
+
+    backface-visibility: hidden;
 }
 
-@keyframes globeRotate {
+@keyframes globeSpin {
+
     0% {
-        transform: rotate(0deg);
+        transform: perspective(500px) rotateY(0deg);
     }
 
     50% {
-        transform: rotate(180deg);
+        transform: perspective(500px) rotateY(180deg);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: perspective(500px) rotateY(360deg);
     }
 }
