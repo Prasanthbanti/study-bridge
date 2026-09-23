@@ -2909,3 +2909,141 @@ textarea {
     width: 30px;
     height: 30px;
 }
+/* ==========================================
+   STUDYBRIDGE - LEFT WHATSAPP BUTTON FIX
+========================================== */
+
+.studybridge-whatsapp-left {
+    position: fixed !important;
+
+    left: 20px !important;
+    bottom: 20px !important;
+
+    /* Smaller outer green circle */
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #25D366 !important;
+    border-radius: 50% !important;
+
+    box-sizing: border-box !important;
+
+    text-decoration: none !important;
+
+    z-index: 9999 !important;
+
+    /* Keep normal orientation */
+    direction: ltr !important;
+
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.22) !important;
+}
+
+
+/* ==========================================
+   WHATSAPP LOGO
+========================================== */
+
+.studybridge-whatsapp-left .whatsapp-icon {
+    width: 28px !important;
+    height: 28px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    flex-shrink: 0 !important;
+
+    /* DO NOT MIRROR THE LOGO */
+    transform: none !important;
+}
+
+
+.studybridge-whatsapp-left .whatsapp-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    /* Normal WhatsApp orientation */
+    transform: none !important;
+
+    flex-shrink: 0 !important;
+}
+
+
+/* ==========================================
+   RED NOTIFICATION DOT
+========================================== */
+
+.studybridge-whatsapp-left::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0px;
+    right: 0px;
+
+    width: 11px;
+    height: 11px;
+
+    background: #ff3b30;
+
+    border: 2px solid #ffffff;
+
+    border-radius: 50%;
+
+    box-sizing: content-box;
+
+    animation: whatsappLeftPulse 1.8s infinite;
+}
+
+
+/* ==========================================
+   HOVER
+========================================== */
+
+.studybridge-whatsapp-left:hover {
+    transform: scale(1.08) !important;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .studybridge-whatsapp-left {
+        left: 16px !important;
+        bottom: 16px !important;
+
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px !important;
+        min-height: 56px !important;
+    }
+
+    .studybridge-whatsapp-left .whatsapp-icon {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .studybridge-whatsapp-left .whatsapp-icon svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+}
