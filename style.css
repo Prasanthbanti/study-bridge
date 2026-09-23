@@ -3242,3 +3242,292 @@ textarea {
         bottom: 15px;
     }
 }
+/* ==========================================
+   STUDYBRIDGE PREMIUM GLOBAL MAP
+========================================== */
+
+.world-map {
+    position: relative;
+    min-height: 440px;
+
+    display: grid;
+    place-items: center;
+
+    overflow: hidden;
+}
+
+/* Soft orange global glow */
+.map-glow {
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(245, 130, 32, 0.20),
+            rgba(245, 130, 32, 0.06) 45%,
+            transparent 70%
+        );
+
+    filter: blur(8px);
+
+    animation: globalGlow 4s ease-in-out infinite;
+}
+
+/* Globe */
+.map-symbol {
+    position: relative;
+    z-index: 2;
+
+    font-size: 190px;
+
+    line-height: 1;
+
+    filter:
+        drop-shadow(
+            0 20px 25px rgba(0, 0, 0, 0.25)
+        );
+
+    animation: globeFloat 5s ease-in-out infinite;
+}
+
+/* Decorative orbit */
+.map-orbit {
+    position: absolute;
+
+    width: 330px;
+    height: 120px;
+
+    border: 1px solid rgba(245, 130, 32, 0.30);
+
+    border-radius: 50%;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.orbit-one {
+    transform: rotate(25deg);
+}
+
+.orbit-two {
+    transform: rotate(-25deg);
+}
+
+/* Destination markers */
+.map-dot {
+    position: absolute;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.10);
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+
+    backdrop-filter: blur(10px);
+
+    color: var(--white);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+
+    white-space: nowrap;
+}
+
+.map-dot span {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--orange);
+
+    box-shadow:
+        0 0 0 4px rgba(245, 130, 32, 0.18),
+        0 0 15px rgba(245, 130, 32, 0.65);
+
+    animation: mapPulse 2s infinite;
+}
+
+.map-dot small {
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Marker positions */
+
+.dot-uk {
+    top: 18%;
+    right: 25%;
+}
+
+.dot-usa {
+    top: 42%;
+    left: 5%;
+}
+
+.dot-canada {
+    top: 25%;
+    left: 14%;
+}
+
+.dot-australia {
+    right: 5%;
+    bottom: 22%;
+}
+
+.dot-ireland {
+    top: 31%;
+    right: 40%;
+}
+
+.dot-europe {
+    top: 38%;
+    right: 23%;
+}
+
+.dot-switzerland {
+    top: 48%;
+    right: 28%;
+}
+
+
+/* ==========================================
+   MAP ANIMATIONS
+========================================== */
+
+@keyframes globalGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+@keyframes globeFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes mapPulse {
+
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.35);
+        opacity: 0.65;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* ==========================================
+   MOBILE GLOBAL MAP
+========================================== */
+
+@media (max-width: 600px) {
+
+    .world-map {
+        min-height: 350px;
+    }
+
+    .map-symbol {
+        font-size: 135px;
+    }
+
+    .map-glow {
+        width: 260px;
+        height: 260px;
+    }
+
+    .map-orbit {
+        width: 260px;
+        height: 95px;
+    }
+
+    .map-dot {
+        padding: 5px 8px;
+        font-size: 9px;
+    }
+
+    .map-dot small {
+        font-size: 9px;
+    }
+
+    .map-dot span {
+        width: 6px;
+        height: 6px;
+    }
+
+    .dot-uk {
+        top: 16%;
+        right: 12%;
+    }
+
+    .dot-usa {
+        top: 40%;
+        left: 2%;
+    }
+
+    .dot-canada {
+        top: 22%;
+        left: 5%;
+    }
+
+    .dot-australia {
+        right: 2%;
+        bottom: 18%;
+    }
+
+    .dot-ireland {
+        top: 29%;
+        right: 35%;
+    }
+
+    .dot-europe {
+        top: 39%;
+        right: 10%;
+    }
+
+    .dot-switzerland {
+        top: 50%;
+        right: 16%;
+    }
+}
