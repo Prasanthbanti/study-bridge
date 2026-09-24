@@ -223,3 +223,153 @@ async function loadUniversityDatabase() {
 }
 
 loadUniversityDatabase();
+/* ==========================================
+   UNIVERSITY SEARCH & FILTER
+========================================== */
+
+const universitySearchButton =
+    document.getElementById("universitySearch");
+
+if (universitySearchButton) {
+
+    universitySearchButton.addEventListener("click", function () {
+
+        const country =
+            document.getElementById("countrySelect").value;
+
+        const course =
+            document.getElementById("courseSelect").value;
+
+        const intake =
+            document.getElementById("intakeSelect").value;
+
+        const budget =
+            document.getElementById("budgetSelect").value;
+
+        const resultsContainer =
+            document.getElementById("universityResults");
+
+        const searchMessage =
+            document.getElementById("searchMessage");
+
+        if (!studyBridgeUniversities.length) {
+
+            searchMessage.textContent =
+                "University database is still loading. Please try again in a moment.";
+
+            return;
+        }
+
+        let results = studyBridgeUniversities.filter(function (university) {
+
+            const universityCountry =
+                String(university["University Country"] || "").toLowerCase();
+
+            const universityCourse =
+                String(university["Course Type(s)"] || "").toLowerCase();
+
+            const universityIntake =
+                String(university["Intake(s)"] || "").toLowerCase();
+
+            const universityFees =
+                String(university["Fees"] || "").toLowerCase();
+
+            const countryMatch =
+                !country ||
+                universityCountry.includes(country.toLowerCase());
+
+            const courseMatch =
+                !course ||
+                universityCourse.includes(course.toLowerCase());
+
+            const intakeMatch =
+                !intake ||
+                universityIntake.includes(intake.toLowerCase());
+
+            return (
+                countryMatch &&
+                courseMatch &&
+                intakeMatch
+            );
+        });
+
+        searchMessage.textContent =
+            results.length +
+            " university option" +
+            (results.length === 1 ? "" : "s") +
+            " found.";
+
+        displayUniversityResults(results);
+
+    });
+}
+
+
+/* ==========================================
+   DISPLAY UNIVERSITY RESULTS
+========================================== */
+
+function displayUniversityResults(universities) {
+
+    const resultsContainer =
+        document.getElementById("universityResults");
+
+    if (!resultsContainer) return;
+
+    if (!universities.length) {
+
+        resultsContainer.innerHTML = `
+            <div class="no-university-results">
+                <h3>No universities found</h3>
+                <p>
+                    Try changing your destination, program or intake.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    const limitedResults =
+        universities.slice(0, 12);
+
+    resultsContainer.innerHTML =
+        limitedResults.map(function (university) {
+
+            return `
+                <div class="university-result-card">
+
+                    <h3>
+                        ${university["University Name"] || "University"}
+                    </h3>
+
+                    <p>
+                        🌍 ${university["University Country"] || "Country not available"}
+                    </p>
+
+                    <p>
+                        📍 ${university["Address"] || "Address not available"}
+                    </p>
+
+                    <p>
+                        🎓 ${university["Course Type(s)"] || "Course information not available"}
+                    </p>
+
+                    <p>
+                        📅 ${university["Intake(s)"] || "Intake information not available"}
+                    </p>
+
+                    <p>
+                        💰 ${university["Fees"] || "Fee information not available"}
+                    </p>
+
+                    <a href="#contact" class="btn btn-primary">
+                        Get Guidance →
+                    </a>
+
+                </div>
+            `;
+
+        }).join("");
+
+}
