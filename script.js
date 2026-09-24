@@ -185,3 +185,41 @@ if (header) {
 }
 
 console.log("StudyBridge website loaded successfully.");
+/* ==========================================
+   STUDYBRIDGE UNIVERSITY DATABASE LOADER
+========================================== */
+
+let studyBridgeUniversities = [];
+
+async function loadUniversityDatabase() {
+    try {
+        const response = await fetch("universities.xlsx");
+
+        if (!response.ok) {
+            throw new Error("University Excel file not found.");
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+
+        const workbook = XLSX.read(arrayBuffer, {
+            type: "array"
+        });
+
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+
+        studyBridgeUniversities = XLSX.utils.sheet_to_json(firstSheet);
+
+        console.log(
+            "StudyBridge universities loaded:",
+            studyBridgeUniversities.length
+        );
+
+    } catch (error) {
+        console.error(
+            "University database error:",
+            error
+        );
+    }
+}
+
+loadUniversityDatabase();
