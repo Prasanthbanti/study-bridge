@@ -725,7 +725,14 @@
                         <option>September</option>
                         <option>October</option>
                     </select>
-
+<label>Budget</label>
+<select id="budgetSelect">
+    <option value="">Select Budget</option>
+    <option value="low">Below ₹15 Lakhs</option>
+    <option value="medium">₹15 – ₹25 Lakhs</option>
+    <option value="high">₹25 – ₹40 Lakhs</option>
+    <option value="premium">Above ₹40 Lakhs</option>
+</select>
 
                     <button class="btn btn-primary search-button"
                             id="universitySearch">
@@ -733,7 +740,7 @@
                     </button>
 
                     <p id="searchMessage" class="search-message"></p>
-
+<div id="universityResults" class="university-results"></div>
                 </div>
 
             </div>
