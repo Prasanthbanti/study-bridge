@@ -366,18 +366,28 @@ function updateIntakeOptions() {
     intakeSelect.innerHTML =
         '<option value="">Select Intake</option>';
 
-    if (!selectedCountry || !studyBridgeUniversities.length) {
+    if (
+        !selectedCountry ||
+        !studyBridgeUniversities.length
+    ) {
         return;
     }
 
     const availableIntakes = new Set();
+
+
+    /* ==========================================
+       CHECK UNIVERSITIES FOR SELECTED COUNTRY
+    ========================================== */
 
     studyBridgeUniversities.forEach(function (university) {
 
         const universityCountry =
             String(
                 university["University Country"] || ""
-            ).trim().toLowerCase();
+            )
+            .trim()
+            .toLowerCase();
 
         if (
             universityCountry !== selectedCountry
@@ -385,33 +395,69 @@ function updateIntakeOptions() {
             return;
         }
 
+
         const intakeText =
             String(
                 university["Intake(s)"] || ""
-            ).trim();
+            )
+            .trim()
+            .toLowerCase();
 
         if (!intakeText) return;
 
-        /*
-         * Handles values such as:
-         * Fall
-         * Spring
-         * Fall, Spring
-         * September
-         * January / September
-         */
 
-        const parts = intakeText.split(
-            /[,;/|]+/
-        );
+        /* ==========================================
+           DETECT SEASONS
+        ========================================== */
 
-        parts.forEach(function (part) {
+        if (/\bspring\b/.test(intakeText)) {
+            availableIntakes.add("spring");
+        }
 
-            const intake =
-                part.trim().toLowerCase();
+        if (/\bfall\b/.test(intakeText)) {
+            availableIntakes.add("fall");
+        }
 
-            if (intake) {
-                availableIntakes.add(intake);
+        if (/\bsummer\b/.test(intakeText)) {
+            availableIntakes.add("summer");
+        }
+
+        if (/\bwinter\b/.test(intakeText)) {
+            availableIntakes.add("winter");
+        }
+
+
+        /* ==========================================
+           DETECT MONTHS
+        ========================================== */
+
+        const months = [
+            "january",
+            "february",
+            "march",
+            "april",
+            "may",
+            "june",
+            "july",
+            "august",
+            "september",
+            "october",
+            "november",
+            "december"
+        ];
+
+        months.forEach(function (month) {
+
+            const monthRegex =
+                new RegExp(
+                    "\\b" + month + "\\b",
+                    "i"
+                );
+
+            if (
+                monthRegex.test(intakeText)
+            ) {
+                availableIntakes.add(month);
             }
 
         });
@@ -419,8 +465,44 @@ function updateIntakeOptions() {
     });
 
 
-    // Create only the options that actually exist
-    availableIntakes.forEach(function (intake) {
+    /* ==========================================
+       ORDER OF OPTIONS
+    ========================================== */
+
+    const intakeOrder = [
+
+        "spring",
+        "fall",
+        "summer",
+        "winter",
+
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december"
+
+    ];
+
+
+    /* ==========================================
+       CREATE OPTIONS
+    ========================================== */
+
+    intakeOrder.forEach(function (intake) {
+
+        if (
+            !availableIntakes.has(intake)
+        ) {
+            return;
+        }
 
         const option =
             document.createElement("option");
