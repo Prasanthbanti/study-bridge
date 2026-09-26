@@ -329,6 +329,60 @@ function parseUniversityCSV(csv) {
 
 loadUniversityDatabase();
 /* ==========================================
+   AUTOMATIC COUNTRY DROPDOWN
+   READS COUNTRIES FROM GOOGLE SHEET
+========================================== */
+
+function updateCountryOptions() {
+
+    const countrySelect =
+        document.getElementById("countrySelect");
+
+    if (!countrySelect) return;
+
+    if (!studyBridgeUniversities.length) {
+        return;
+    }
+
+    const countries = new Set();
+
+    studyBridgeUniversities.forEach(function (university) {
+
+        const country =
+            String(
+                university["University Country"] || ""
+            ).trim();
+
+        if (country) {
+            countries.add(country);
+        }
+
+    });
+
+    countrySelect.innerHTML =
+        '<option value="">Select Country</option>';
+
+    [...countries]
+        .sort(function (a, b) {
+            return a.localeCompare(b);
+        })
+        .forEach(function (country) {
+
+            const option =
+                document.createElement("option");
+
+            option.value = country;
+            option.textContent = country;
+
+            countrySelect.appendChild(option);
+
+        });
+
+    console.log(
+        "Countries loaded from Google Sheet:",
+        [...countries]
+    );
+}/* ==========================================
    DYNAMIC UNIVERSITY INTAKE FILTER
 ========================================== */
 
