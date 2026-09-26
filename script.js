@@ -214,7 +214,7 @@ async function loadUniversityDatabase() {
 
         studyBridgeUniversities =
             parseUniversityCSV(csvText);
-
+updateCountryOptions();
         console.log(
             "StudyBridge universities loaded:",
             studyBridgeUniversities.length
