@@ -355,14 +355,22 @@ const intakeDisplayNames = {
 };
 
 
+/* ==========================================
+   DYNAMIC COUNTRY → INTAKE OPTIONS
+   READS DIRECTLY FROM GOOGLE SHEET DATA
+========================================== */
+
 function updateIntakeOptions() {
 
-    if (!countrySelect || !intakeSelect) return;
+    if (!countrySelect || !intakeSelect) {
+        return;
+    }
 
     const selectedCountry =
         countrySelect.value.trim().toLowerCase();
 
-    // Clear existing options
+    /* Clear old options */
+
     intakeSelect.innerHTML =
         '<option value="">Select Intake</option>';
 
@@ -373,11 +381,36 @@ function updateIntakeOptions() {
         return;
     }
 
+
+    /* ==========================================
+       ALL INTAKES FOUND FOR THIS COUNTRY
+    ========================================== */
+
     const availableIntakes = new Set();
 
 
     /* ==========================================
-       CHECK UNIVERSITIES FOR SELECTED COUNTRY
+       MONTH LIST
+    ========================================== */
+
+    const months = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december"
+    ];
+
+
+    /* ==========================================
+       READ EVERY UNIVERSITY
     ========================================== */
 
     studyBridgeUniversities.forEach(function (university) {
@@ -388,6 +421,9 @@ function updateIntakeOptions() {
             )
             .trim()
             .toLowerCase();
+
+
+        /* Only selected country */
 
         if (
             universityCountry !== selectedCountry
@@ -403,48 +439,47 @@ function updateIntakeOptions() {
             .trim()
             .toLowerCase();
 
-        if (!intakeText) return;
+
+        if (!intakeText) {
+            return;
+        }
 
 
         /* ==========================================
            DETECT SEASONS
         ========================================== */
 
-        if (/\bspring\b/.test(intakeText)) {
+        if (/\bspring\b/i.test(intakeText)) {
+
             availableIntakes.add("spring");
+
         }
 
-        if (/\bfall\b/.test(intakeText)) {
+
+        if (/\bfall\b/i.test(intakeText)) {
+
             availableIntakes.add("fall");
+
         }
 
-        if (/\bsummer\b/.test(intakeText)) {
+
+        if (/\bsummer\b/i.test(intakeText)) {
+
             availableIntakes.add("summer");
+
         }
 
-        if (/\bwinter\b/.test(intakeText)) {
+
+        if (/\bwinter\b/i.test(intakeText)) {
+
             availableIntakes.add("winter");
+
         }
 
 
         /* ==========================================
            DETECT MONTHS
         ========================================== */
-
-        const months = [
-            "january",
-            "february",
-            "march",
-            "april",
-            "may",
-            "june",
-            "july",
-            "august",
-            "september",
-            "october",
-            "november",
-            "december"
-        ];
 
         months.forEach(function (month) {
 
@@ -454,10 +489,13 @@ function updateIntakeOptions() {
                     "i"
                 );
 
+
             if (
                 monthRegex.test(intakeText)
             ) {
+
                 availableIntakes.add(month);
+
             }
 
         });
@@ -466,7 +504,7 @@ function updateIntakeOptions() {
 
 
     /* ==========================================
-       ORDER OF OPTIONS
+       DISPLAY ORDER
     ========================================== */
 
     const intakeOrder = [
@@ -493,7 +531,7 @@ function updateIntakeOptions() {
 
 
     /* ==========================================
-       CREATE OPTIONS
+       CREATE DROPDOWN OPTIONS
     ========================================== */
 
     intakeOrder.forEach(function (intake) {
@@ -504,39 +542,54 @@ function updateIntakeOptions() {
             return;
         }
 
+
         const option =
             document.createElement("option");
 
+
         option.value = intake;
+
 
         option.textContent =
             intakeDisplayNames[intake] ||
             capitalizeIntake(intake);
 
+
         intakeSelect.appendChild(option);
 
     });
+
+
+    console.log(
+        "Available intakes for " +
+        selectedCountry +
+        ":",
+        [...availableIntakes]
+    );
 
 }
 
 
 /* ==========================================
-   FORMAT UNKNOWN INTAKE NAMES
+   CAPITALIZE UNKNOWN INTAKES
 ========================================== */
 
 function capitalizeIntake(value) {
 
     return value
         .replace(/[-_]+/g, " ")
-        .replace(/\b\w/g, function (letter) {
-            return letter.toUpperCase();
-        });
+        .replace(
+            /\b\w/g,
+            function (letter) {
+                return letter.toUpperCase();
+            }
+        );
 
 }
 
 
 /* ==========================================
-   UPDATE WHEN COUNTRY CHANGES
+   COUNTRY CHANGE
 ========================================== */
 
 if (countrySelect) {
