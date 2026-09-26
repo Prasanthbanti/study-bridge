@@ -512,3 +512,9 @@ function displayUniversityResults(universities) {
         }).join("");
 
 }
+/* ==========================================
+   STUDYBRIDGE LIVE GOOGLE SHEET
+========================================== */
+
+const UNIVERSITY_SHEET_URL =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSHhc8GttayKxOFAgH32sslBab0amUBhPOCVWK5W2m1086YB7v25iEXO2uMno3hFhb8TX7mK2M89ay_/pub?output=csv";
