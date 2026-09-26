@@ -850,3 +850,58 @@ function displayUniversityResults(universities) {
         }).join("");
 
 }
+// Your existing code
+// ...
+// ...
+// END OF EXISTING CODE
+
+
+/* ==========================================
+   GET GUIDANCE → UNIVERSITY WHATSAPP
+========================================== */
+
+function openUniversityWhatsApp(event, university) {
+
+    event.preventDefault();
+
+    const whatsappNumber = "91XXXXXXXXXX";
+
+    const universityName =
+        university["University Name"] || "University";
+
+    const country =
+        university["University Country"] || "";
+
+    const course =
+        university["Course Type(s)"] || "";
+
+    const intake =
+        university["Intake(s)"] || "";
+
+    const fees =
+        university["Fees"] || "";
+
+    const message =
+`Hello StudyBridge 👋
+
+I would like guidance for this university:
+
+🎓 University: ${universityName}
+🌍 Country: ${country}
+📚 Program: ${course}
+📅 Intake: ${intake}
+💰 Fees: ${fees}
+
+Please provide me with admission and application guidance.`;
+
+    const whatsappURL =
+        "https://wa.me/" +
+        whatsappNumber +
+        "?text=" +
+        encodeURIComponent(message);
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+}
