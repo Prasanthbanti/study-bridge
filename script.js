@@ -224,6 +224,143 @@ async function loadUniversityDatabase() {
 
 loadUniversityDatabase();
 /* ==========================================
+   DYNAMIC UNIVERSITY INTAKE FILTER
+========================================== */
+
+const countrySelect = document.getElementById("countrySelect");
+const intakeSelect = document.getElementById("intakeSelect");
+
+const intakeDisplayNames = {
+    spring: "Spring (January–May)",
+    fall: "Fall (August–December)",
+    summer: "Summer (May–August)",
+    winter: "Winter (December–February)",
+    january: "January",
+    february: "February",
+    march: "March",
+    april: "April",
+    may: "May",
+    june: "June",
+    july: "July",
+    august: "August",
+    september: "September",
+    october: "October",
+    november: "November",
+    december: "December"
+};
+
+
+function updateIntakeOptions() {
+
+    if (!countrySelect || !intakeSelect) return;
+
+    const selectedCountry =
+        countrySelect.value.trim().toLowerCase();
+
+    // Clear existing options
+    intakeSelect.innerHTML =
+        '<option value="">Select Intake</option>';
+
+    if (!selectedCountry || !studyBridgeUniversities.length) {
+        return;
+    }
+
+    const availableIntakes = new Set();
+
+    studyBridgeUniversities.forEach(function (university) {
+
+        const universityCountry =
+            String(
+                university["University Country"] || ""
+            ).trim().toLowerCase();
+
+        if (
+            universityCountry !== selectedCountry
+        ) {
+            return;
+        }
+
+        const intakeText =
+            String(
+                university["Intake(s)"] || ""
+            ).trim();
+
+        if (!intakeText) return;
+
+        /*
+         * Handles values such as:
+         * Fall
+         * Spring
+         * Fall, Spring
+         * September
+         * January / September
+         */
+
+        const parts = intakeText.split(
+            /[,;/|]+/
+        );
+
+        parts.forEach(function (part) {
+
+            const intake =
+                part.trim().toLowerCase();
+
+            if (intake) {
+                availableIntakes.add(intake);
+            }
+
+        });
+
+    });
+
+
+    // Create only the options that actually exist
+    availableIntakes.forEach(function (intake) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = intake;
+
+        option.textContent =
+            intakeDisplayNames[intake] ||
+            capitalizeIntake(intake);
+
+        intakeSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* ==========================================
+   FORMAT UNKNOWN INTAKE NAMES
+========================================== */
+
+function capitalizeIntake(value) {
+
+    return value
+        .replace(/[-_]+/g, " ")
+        .replace(/\b\w/g, function (letter) {
+            return letter.toUpperCase();
+        });
+
+}
+
+
+/* ==========================================
+   UPDATE WHEN COUNTRY CHANGES
+========================================== */
+
+if (countrySelect) {
+
+    countrySelect.addEventListener(
+        "change",
+        updateIntakeOptions
+    );
+
+}
+/* ==========================================
    UNIVERSITY SEARCH & FILTER
 ========================================== */
 
