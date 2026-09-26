@@ -186,28 +186,34 @@ if (header) {
 
 console.log("StudyBridge website loaded successfully.");
 /* ==========================================
-   STUDYBRIDGE UNIVERSITY DATABASE LOADER
+   STUDYBRIDGE LIVE UNIVERSITY DATABASE
+   GOOGLE SHEETS
 ========================================== */
 
 let studyBridgeUniversities = [];
 
+const UNIVERSITY_SHEET_URL =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSHhc8GttayKxOFAgH32sslBab0amUBhPOCVWK5W2m1086YB7v25iEXO2uMno3hFhb8TX7mK2M89ay_/pub?output=csv";
+
+
 async function loadUniversityDatabase() {
+
     try {
-        const response = await fetch("universities.xlsx");
+
+        const response =
+            await fetch(UNIVERSITY_SHEET_URL);
 
         if (!response.ok) {
-            throw new Error("University Excel file not found.");
+            throw new Error(
+                "Google Sheet could not be loaded."
+            );
         }
 
-        const arrayBuffer = await response.arrayBuffer();
+        const csvText =
+            await response.text();
 
-        const workbook = XLSX.read(arrayBuffer, {
-            type: "array"
-        });
-
-        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-
-        studyBridgeUniversities = XLSX.utils.sheet_to_json(firstSheet);
+        studyBridgeUniversities =
+            parseUniversityCSV(csvText);
 
         console.log(
             "StudyBridge universities loaded:",
@@ -215,12 +221,111 @@ async function loadUniversityDatabase() {
         );
 
     } catch (error) {
+
         console.error(
             "University database error:",
             error
         );
+
     }
 }
+
+
+/* ==========================================
+   CSV PARSER
+========================================== */
+
+function parseUniversityCSV(csv) {
+
+    const rows = [];
+    let row = [];
+    let value = "";
+    let insideQuotes = false;
+
+    for (let i = 0; i < csv.length; i++) {
+
+        const character = csv[i];
+        const nextCharacter = csv[i + 1];
+
+        if (
+            character === '"' &&
+            insideQuotes &&
+            nextCharacter === '"'
+        ) {
+            value += '"';
+            i++;
+            continue;
+        }
+
+        if (character === '"') {
+            insideQuotes = !insideQuotes;
+            continue;
+        }
+
+        if (character === "," && !insideQuotes) {
+            row.push(value.trim());
+            value = "";
+            continue;
+        }
+
+        if (
+            (character === "\n" || character === "\r") &&
+            !insideQuotes
+        ) {
+
+            if (
+                character === "\r" &&
+                nextCharacter === "\n"
+            ) {
+                i++;
+            }
+
+            row.push(value.trim());
+
+            if (row.some(cell => cell !== "")) {
+                rows.push(row);
+            }
+
+            row = [];
+            value = "";
+
+            continue;
+        }
+
+        value += character;
+    }
+
+    if (value || row.length) {
+
+        row.push(value.trim());
+
+        if (row.some(cell => cell !== "")) {
+            rows.push(row);
+        }
+    }
+
+    if (!rows.length) {
+        return [];
+    }
+
+    const headers = rows[0];
+
+    return rows.slice(1).map(function (row) {
+
+        const university = {};
+
+        headers.forEach(function (header, index) {
+
+            university[header] =
+                row[index] || "";
+
+        });
+
+        return university;
+
+    });
+}
+
 
 loadUniversityDatabase();
 /* ==========================================
