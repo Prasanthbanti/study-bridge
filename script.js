@@ -466,7 +466,7 @@ if (countrySelect) {
 
 }
 /* ==========================================
-   UNIVERSITY SEARCH & FILTER
+   STUDYBRIDGE UNIVERSITY SEARCH
 ========================================== */
 
 const universitySearchButton =
@@ -477,16 +477,13 @@ if (universitySearchButton) {
     universitySearchButton.addEventListener("click", function () {
 
         const country =
-            document.getElementById("countrySelect").value;
+            document.getElementById("countrySelect").value.trim();
 
         const course =
-            document.getElementById("courseSelect").value;
+            document.getElementById("courseSelect").value.trim();
 
         const intake =
-            document.getElementById("intakeSelect").value;
-
-        const budget =
-            document.getElementById("budgetSelect").value;
+            document.getElementById("intakeSelect").value.trim();
 
         const resultsContainer =
             document.getElementById("universityResults");
@@ -494,46 +491,89 @@ if (universitySearchButton) {
         const searchMessage =
             document.getElementById("searchMessage");
 
+
+        /* ======================================
+           CHECK DATABASE
+        ====================================== */
+
         if (!studyBridgeUniversities.length) {
 
             searchMessage.textContent =
-                "University database is still loading. Please try again in a moment.";
+                "University data is still loading. Please wait a moment and try again.";
 
             return;
         }
 
-        let results = studyBridgeUniversities.filter(function (university) {
 
-            const universityCountry =
-                String(university["University Country"] || "").toLowerCase();
+        /* ======================================
+           FILTER UNIVERSITIES
+        ====================================== */
 
-            const universityCourse =
-                String(university["Course Type(s)"] || "").toLowerCase();
+        const results =
+            studyBridgeUniversities.filter(function (university) {
 
-            const universityIntake =
-                String(university["Intake(s)"] || "").toLowerCase();
+                const universityCountry =
+                    String(
+                        university["University Country"] || ""
+                    ).trim().toLowerCase();
 
-            const universityFees =
-                String(university["Fees"] || "").toLowerCase();
+                const universityCourse =
+                    String(
+                        university["Course Type(s)"] || ""
+                    ).trim().toLowerCase();
 
-            const countryMatch =
-                !country ||
-                universityCountry.includes(country.toLowerCase());
+                const universityIntake =
+                    String(
+                        university["Intake(s)"] || ""
+                    ).trim().toLowerCase();
 
-            const courseMatch =
-                !course ||
-                universityCourse.includes(course.toLowerCase());
 
-            const intakeMatch =
-                !intake ||
-                universityIntake.includes(intake.toLowerCase());
+                /* Country */
 
-            return (
-                countryMatch &&
-                courseMatch &&
-                intakeMatch
-            );
-        });
+                const countryMatch =
+                    !country ||
+                    universityCountry.includes(
+                        country.toLowerCase()
+                    );
+
+
+                /* Course */
+
+                const courseMatch =
+                    !course ||
+                    universityCourse.includes(
+                        course.toLowerCase()
+                    );
+
+
+                /* Intake */
+
+                let intakeMatch = true;
+
+                if (intake) {
+
+                    const selectedIntake =
+                        intake.toLowerCase();
+
+                    intakeMatch =
+                        universityIntake.includes(
+                            selectedIntake
+                        );
+                }
+
+
+                return (
+                    countryMatch &&
+                    courseMatch &&
+                    intakeMatch
+                );
+
+            });
+
+
+        /* ======================================
+           SHOW RESULT COUNT
+        ====================================== */
 
         searchMessage.textContent =
             results.length +
@@ -541,12 +581,16 @@ if (universitySearchButton) {
             (results.length === 1 ? "" : "s") +
             " found.";
 
+
+        /* ======================================
+           DISPLAY RESULTS
+        ====================================== */
+
         displayUniversityResults(results);
 
     });
+
 }
-
-
 /* ==========================================
    DISPLAY UNIVERSITY RESULTS
 ========================================== */
@@ -617,9 +661,3 @@ function displayUniversityResults(universities) {
         }).join("");
 
 }
-/* ==========================================
-   STUDYBRIDGE LIVE GOOGLE SHEET
-========================================== */
-
-const UNIVERSITY_SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSHhc8GttayKxOFAgH32sslBab0amUBhPOCVWK5W2m1086YB7v25iEXO2uMno3hFhb8TX7mK2M89ay_/pub?output=csv";
