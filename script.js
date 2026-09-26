@@ -500,9 +500,11 @@ function displayUniversityResults(universities) {
                         💰 ${university["Fees"] || "Fee information not available"}
                     </p>
 
-                    <a href="#contact" class="btn btn-primary">
-                        Get Guidance →
-                    </a>
+                    <a href="#"
+   class="btn btn-primary"
+   onclick='openUniversityWhatsApp(event, ${JSON.stringify(university)})'>
+    Get Guidance →
+</a>
 
                 </div>
             `;
