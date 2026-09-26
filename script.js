@@ -864,7 +864,7 @@ function openUniversityWhatsApp(event, university) {
 
     event.preventDefault();
 
-    const whatsappNumber = "91XXXXXXXXXX";
+    const whatsappNumber = "918886999952";
 
     const universityName =
         university["University Name"] || "University";
