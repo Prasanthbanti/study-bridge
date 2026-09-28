@@ -2,22 +2,36 @@
 // STUDYBRIDGE WEBSITE JAVASCRIPT
 // ===============================
 
-// Mobile menu
-const menuToggle = document.querySelector(".menu-toggle");
-const navLinks = document.querySelector(".nav-links");
+// ==========================================
+// MOBILE MENU
+// ==========================================
 
-if (menuToggle) {
+const menuToggle = document.querySelector(".menu-toggle");
+const mainNav = document.querySelector("#mainNav");
+
+if (menuToggle && mainNav) {
+
     menuToggle.addEventListener("click", () => {
-        navLinks.classList.toggle("active");
+        mainNav.classList.toggle("active");
+
+        // Change menu icon
+        if (mainNav.classList.contains("active")) {
+            menuToggle.innerHTML = "✕";
+        } else {
+            menuToggle.innerHTML = "☰";
+        }
+    });
+
+    // Close menu when a navigation link is clicked
+    mainNav.querySelectorAll("a").forEach(link => {
+
+        link.addEventListener("click", () => {
+            mainNav.classList.remove("active");
+            menuToggle.innerHTML = "☰";
+        });
+
     });
 }
-
-// Close mobile menu when a link is clicked
-document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-    });
-});
 
 
 // ==========================================
