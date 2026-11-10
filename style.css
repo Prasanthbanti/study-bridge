@@ -3606,3 +3606,40 @@ textarea {
         transform: translateX(190px);
     }
 }
+
+/* =====================================
+   STUDYBRIDGE RESPONSIVE HERO IMAGE
+===================================== */
+
+.studybridge-image-hero {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    line-height: 0;
+}
+
+.studybridge-image-hero picture {
+    display: block;
+    width: 100%;
+}
+
+.studybridge-hero-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .studybridge-image-hero {
+        width: 100%;
+    }
+
+    .studybridge-hero-img {
+        width: 100%;
+        height: auto;
+    }
+}
